@@ -3,9 +3,9 @@ class SessionController < ApplicationController
   end
 
   def create
-  	@user = User.find_by name: params[:username]
+  	@user = User.find_by username: params[:username]
 		if !@user
-			flash.now.alert = "username #{params[:username]} was invalid"
+			flash.now.alert = "Username #{params[:username]} was invalid"
 			render :new
 		elsif @user.password == params[:password]
 			session[:user] = @user.name
