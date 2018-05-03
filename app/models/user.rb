@@ -2,7 +2,9 @@ class User < ActiveRecord::Base
 	has_many :notes
 	has_many :collections
 	has_many :friendships
-  	has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
+  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
+  has_many :shared_notes, :dependent => :destroy
+  has_many :being_shared_notes, :class_name => "Shared_note", :foreign_key => "sharedUser", :dependent => :destroy
 
   def friends
     friends_array = friendships.map{|friendship| friendship.friend if friendship.confirmed}
