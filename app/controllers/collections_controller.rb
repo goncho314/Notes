@@ -10,6 +10,7 @@ class CollectionsController < ApplicationController
   # GET /collections/1
   # GET /collections/1.json
   def show
+    @notes = Note.all
   end
 
   # GET /collections/new
@@ -19,13 +20,14 @@ class CollectionsController < ApplicationController
 
   # GET /collections/1/edit
   def edit
+    @notes = Note.all
   end
 
   # POST /collections
   # POST /collections.json
   def create
     @collection = Collection.new(collection_params)
-
+    @collection.user = User.find_by username: session[:user]
     respond_to do |format|
       if @collection.save
         format.html { redirect_to @collection, notice: 'Collection was successfully created.' }
@@ -69,6 +71,6 @@ class CollectionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def collection_params
-      params.require(:collection).permit(:user)
+      params.require(:collection).permit(:title)
     end
 end

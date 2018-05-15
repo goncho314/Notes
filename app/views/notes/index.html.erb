@@ -1,24 +1,38 @@
 <p id="notice"><%= notice %></p>
-<h1>Listing Notes</h1>
+
+<h1>Notes</h1>
+
 <table>
- <thead>
- <tr>
- <th>Text</th>
- <th>User</th>
- <th colspan="3"></th>
- </tr>
- </thead>
- <tbody>
- <% @notes.each do |note| %>
- <tr>
- <td><%= note.text %></td>
- <td><%= note.user.name %></td>
- <td><%= link_to 'Show', note %></td>
- <td><%= link_to 'Edit', edit_note_path(note) %></td>
- <td><%= link_to 'Destroy', note, method: :delete, data: { confirm: 'Are you sure?' } %></td>
- </tr>
- <% end %>
- </tbody>
+  <thead>
+    <tr>
+      <th>Owner</th>
+      <th>Text</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @notes.each do |note| %>
+      <% if note.user.username == session[:user] %>
+        <tr>
+          <td><%= note.user.username %></td>
+          <td><%= note.text %></td>
+          <% if note.image.url(:thumb) != '/images/thumb/missing.png' %>
+            <td><%=  image_tag note.image.url(:thumb) %></td>
+          <% else %>
+            <td></td>
+          <% end %>
+
+          <td><%= link_to 'Show', note %></td>
+          <td><%= link_to 'Edit', edit_note_path(note) %></td>
+          <td><%= link_to 'Destroy', note, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td>Share</td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
 </table>
+
 <br>
+
 <%= link_to 'New Note', new_note_path %>

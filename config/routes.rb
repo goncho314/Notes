@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+  get 'collection/new'
+
+  get 'collection/create'
+
+  get 'collection/destroy'
+
+  get 'collection/edit'
+
+  get 'collection/share'
+
+  get 'collection/index'
+
+  get 'welcome/index'
+
   get "logout" => "session#destroy", :as => "logout"
   get "login" => "session#new", :as => "login"
   post "login" => "session#create"
@@ -8,5 +22,5 @@ Rails.application.routes.draw do
   resources :notes
   resources :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root :to => "notes#index"
+  root :to => "welcome#index"
 end

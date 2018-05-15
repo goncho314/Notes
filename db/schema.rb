@@ -10,29 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180503183900) do
+ActiveRecord::Schema.define(version: 20180513221000) do
 
   create_table "collections", force: :cascade do |t|
-    t.string "user"
+    t.string "title"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_collections_on_user_id"
   end
 
-  create_table "friendships", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "friend_id"
-    t.boolean "confirmed"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["friend_id"], name: "index_friendships_on_friend_id"
-    t.index ["user_id"], name: "index_friendships_on_user_id"
+  create_table "collections_notes", id: false, force: :cascade do |t|
+    t.integer "collection_id", null: false
+    t.integer "note_id", null: false
+    t.index ["collection_id", "note_id"], name: "index_collections_notes_on_collection_id_and_note_id"
+    t.index ["note_id", "collection_id"], name: "index_collections_notes_on_note_id_and_collection_id"
   end
 
   create_table "notes", force: :cascade do |t|
-    t.string "user"
+    t.integer "user_id"
     t.string "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image_file_name"
+    t.string "image_content_type"
+    t.integer "image_file_size"
+    t.datetime "image_updated_at"
+    t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
   create_table "sharedNote", force: :cascade do |t|
@@ -52,7 +56,7 @@ ActiveRecord::Schema.define(version: 20180503183900) do
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password"
-    t.string "role"
+    t.string "role", default: "User"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

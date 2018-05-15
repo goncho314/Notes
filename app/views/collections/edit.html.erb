@@ -2,5 +2,25 @@
 
 <%= render 'form', collection: @collection %>
 
+<h1>Notes</h1>
+<% @notes.each do |note| %>
+    <tr>
+      <td><%= note.user.username %></td>
+      <td><%= note.text %></td>
+      <% if note.image.url(:thumb) != '/images/thumb/missing.png' %>
+        <td><%=  image_tag note.image.url(:thumb) %></td>
+      <% else %>
+        <td></td>
+      <% end %>
+      <% if note.collection_ids.include? @collection.id %>
+        <td>Remove from collection</td>
+      <% else %>
+        <td>Add to collection</td>
+      <% end %>      
+    </tr>
+    <br>
+<% end %>
+<br>
+
 <%= link_to 'Show', @collection %> |
 <%= link_to 'Back', collections_path %>

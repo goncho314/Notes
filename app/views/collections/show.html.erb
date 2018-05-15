@@ -1,9 +1,35 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>User:</strong>
-  <%= @collection.user %>
+  <strong>Title:</strong>
+  <%= @collection.title %>
 </p>
+
+<p>
+  <strong>User:</strong>
+  <%= @collection.user.username %>
+</p>
+<h1>Notes</h1>
+<% @notes.each do |note| %>
+    <% if @collection.note_ids.include? note.id %>
+        <tr>
+        	<td><%= note.user.username %></td>
+          	<td><%= note.text %></td>
+          	<% if note.image.url(:thumb) != '/images/thumb/missing.png' %>
+            	<td><%=  image_tag note.image.url(:thumb) %></td>
+          	<% else %>
+            	<td></td>
+          	<% end %>
+          	<td><%= link_to 'Show', note %></td>
+          	<td><%= link_to 'Edit', edit_note_path(note) %></td>
+          	<td><%= link_to 'Destroy', note, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          	<td>Share</td>
+          	<br>
+        </tr>
+    <% end %>
+<% end %>
+
+<br>
 
 <%= link_to 'Edit', edit_collection_path(@collection) %> |
 <%= link_to 'Back', collections_path %>

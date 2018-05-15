@@ -1,3 +1,4 @@
-class Collection < ActiveRecord::Base
-	belongs_to :user
+class Collection < ApplicationRecord
+  belongs_to :user
+  has_and_belongs_to_many :notes
 end

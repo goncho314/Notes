@@ -10,25 +10,16 @@ class NotesController < ApplicationController
   # GET /notes/1
   # GET /notes/1.json
   def show
+    @collections = Collection.all
   end
 
   # GET /notes/new
   def new
-    if !session[:user]
-      redirect_to notes_path, :alert=> "You have to log in to create a new note "
-    else
-      @note = Note.new
-    end
+    @note = Note.new
   end
 
   # GET /notes/1/edit
   def edit
-    @note = Note.find(params[:id])
-    if @note.user.username != session[:user]
-      redirect_to notes_path, :alert => "You cannot edit another user’s note!"
-    else
-      @note = Note.find(params[:id])
-    end
   end
 
   # POST /notes
@@ -36,6 +27,7 @@ class NotesController < ApplicationController
   def create
     @note = Note.new(note_params)
     @note.user = User.find_by username: session[:user]
+    @note.collection_ids = Collection.find_by(id: 1).id
     respond_to do |format|
       if @note.save
         format.html { redirect_to @note, notice: 'Note was successfully created.' }
@@ -64,14 +56,10 @@ class NotesController < ApplicationController
   # DELETE /notes/1
   # DELETE /notes/1.json
   def destroy
-    if @note.user.username != session[:user]
-      redirect_to notes_path, :alert => "You cannot delete another user's note!"
-    else
-      @note.destroy
-      respond_to do |format|
-        format.html { redirect_to notes_url, notice: 'Note was successfully destroyed.' }
-        format.json { head :no_content }
-      end
+    @note.destroy
+    respond_to do |format|
+      format.html { redirect_to notes_url, notice: 'Note was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 
@@ -83,6 +71,6 @@ class NotesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params
-      params.require(:note).permit(:user, :text)
+      params.require(:note).permit(:user_id, :text, :image)
     end
 end

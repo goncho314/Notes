@@ -1,0 +1,18 @@
+<h1>Welcome#index</h1>
+<body>
+ <div id="container">
+ <div class="user_nav">
+ <% if !session[:user] %>
+ <%= link_to "Sign up", signup_path %>
+ <br>
+ <%= link_to "Log in", login_path %>.
+ <% else %>
+ <%= link_to "Notes", notes_path %>
+ <%= link_to "Collections", collections_path %>
+ <%= link_to "Friends", users_path %>
+ Management
+ <% end %>
+ </div>
+ <%= yield %>
+ </div>
+</body>
