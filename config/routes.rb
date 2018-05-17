@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   get "/users/:id/declinerequest/:n_id" => "users#declinerequest", :as => "declinerequest_user"
   get "/users/:id/cancelrequest/:n_id" => "users#cancelrequest", :as => "cancelrequest_user"
 
+  get "/notes/:id/share/:n_id" => "notes#share", :as => "share_note"
+  get "/notes/:id/stopsharing/:n_id" => "notes#stopsharing", :as => "stopsharing_note"
+
   get "logout" => "session#destroy", :as => "logout"
   get "login" => "session#new", :as => "login"
   post "login" => "session#create"

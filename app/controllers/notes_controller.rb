@@ -20,6 +20,8 @@ class NotesController < ApplicationController
 
   # GET /notes/1/edit
   def edit
+    @users = User.all
+    @current_user = User.find_by username: session[:user]
   end
 
   # POST /notes
@@ -59,6 +61,45 @@ class NotesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to notes_url, notice: 'Note was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def share
+    @note = Note.find_by id: params[:id]
+    @owner = @note.user
+    users = @note.user_ids
+    users.push(params[:n_id].to_i)
+    users.delete(@owner.id)
+    @note.user_ids = users
+    @user = User.find_by id: params[:n_id]    
+    notes = @user.note_ids
+    notes.push(params[:id].to_i)
+    @user.note_ids = notes
+    @note.user = @owner
+    respond_to do |format|
+      if @note.save
+        format.html { redirect_to @note, notice: 'Note was successfully shared.' }
+        format.json { render :show, status: :ok, location: @note }
+      end
+    end
+  end
+
+  def stopsharing
+    @note = Note.find_by id: params[:id]
+    @owner = @note.user
+    users = @note.user_ids
+    users.delete(params[:n_id].to_i)
+    @note.user_ids = users
+    @user = User.find_by id: params[:n_id]
+    notes = @user.note_ids
+    notes.delete(params[:id].to_i)
+    @user.note_ids = notes
+    @note.user = @owner
+    respond_to do |format|
+      if @note.save
+        format.html { redirect_to @note, notice: 'Note sharing stopped.' }
+        format.json { render :show, status: :ok, location: @note }
+      end
     end
   end
 

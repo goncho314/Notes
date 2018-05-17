@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180517115933) do
+ActiveRecord::Schema.define(version: 20180517190041) do
 
   create_table "collections", force: :cascade do |t|
     t.string "title"
@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(version: 20180517115933) do
     t.integer "note_id", null: false
     t.index ["collection_id", "note_id"], name: "index_collections_notes_on_collection_id_and_note_id"
     t.index ["note_id", "collection_id"], name: "index_collections_notes_on_note_id_and_collection_id"
+  end
+
+  create_table "collections_users", id: false, force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "collection_id", null: false
+    t.index ["collection_id", "user_id"], name: "index_collections_users_on_collection_id_and_user_id"
+    t.index ["user_id", "collection_id"], name: "index_collections_users_on_user_id_and_collection_id"
   end
 
   create_table "friendships", force: :cascade do |t|
@@ -49,18 +56,11 @@ ActiveRecord::Schema.define(version: 20180517115933) do
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
-  create_table "sharedNote", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "sharedUser_id"
-    t.integer "note_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["note_id"], name: "index_sharedNote_on_note_id"
-    t.index ["sharedUser_id"], name: "index_sharedNote_on_sharedUser_id"
-    t.index ["user_id"], name: "index_sharedNote_on_user_id"
-    t.index [nil], name: "index_sharedNote_on_note"
-    t.index [nil], name: "index_sharedNote_on_sharedUser"
-    t.index [nil], name: "index_sharedNote_on_user"
+  create_table "notes_users", id: false, force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "note_id", null: false
+    t.index ["note_id", "user_id"], name: "index_notes_users_on_note_id_and_user_id"
+    t.index ["user_id", "note_id"], name: "index_notes_users_on_user_id_and_note_id"
   end
 
   create_table "users", force: :cascade do |t|
