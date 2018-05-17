@@ -63,6 +63,40 @@ class CollectionsController < ApplicationController
     end
   end
 
+  def addnote
+    @collection = Collection.find_by id: params[:id]
+    notes = @collection.note_ids
+    notes.push(params[:n_id].to_i)
+    @collection.note_ids = notes
+    @note = Note.find_by id: params[:n_id]    
+    collections = @note.collection_ids
+    collections.push(params[:id].to_i)
+    @note.collection_ids = collections
+    respond_to do |format|
+      if @collection.save
+        format.html { redirect_to @collection, notice: 'Collection was successfully updated.' }
+        format.json { render :show, status: :ok, location: @collection }
+      end
+    end
+  end
+
+  def removenote
+    @collection = Collection.find_by id: params[:id]
+    notes = @collection.note_ids
+    notes.delete(params[:n_id].to_i)
+    @collection.note_ids = notes
+    @note = Note.find_by id: params[:n_id]    
+    collections = @note.collection_ids
+    collections.delete(params[:id].to_i)
+    @note.collection_ids = collections
+    respond_to do |format|
+      if @collection.save
+        format.html { redirect_to @collection, notice: 'Collection was successfully updated.' }
+        format.json { render :edit, status: :ok, location: @collection }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_collection

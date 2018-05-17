@@ -3,24 +3,42 @@
 <%= render 'form', collection: @collection %>
 
 <h1>Notes</h1>
-<% @notes.each do |note| %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Owner</th>
+      <th>Text</th>
+      <th>Image</th>
+      <th>Add/remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @notes.each do |note| %>
     <tr>
       <td><%= note.user.username %></td>
-      <td><%= note.text %></td>
-      <% if note.image.url(:thumb) != '/images/thumb/missing.png' %>
-        <td><%=  image_tag note.image.url(:thumb) %></td>
-      <% else %>
-        <td></td>
-      <% end %>
-      <% if note.collection_ids.include? @collection.id %>
-        <td>Remove from collection</td>
-      <% else %>
-        <td>Add to collection</td>
-      <% end %>      
+      <td>
+        <% if note.text.length>30 %>
+          <%= note.text[0..29]+'...' %>
+        <% else %>
+          <%= note.text%>
+        <% end %> 
+      </td>
+      <td>
+        <% if note.image.url(:thumb) != '/images/thumb/missing.png' %>
+          <%=  image_tag note.image.url(:thumb) %>
+        <% end %>
+      </td>
+      <td>
+        <% if note.collection_ids.include? @collection.id %>
+          <%= button_to "Remove from collection", removenote_collection_path(@collection.id, note.id), :class => "btn btn-danger", :method => :get %>
+        <% else %>
+          <%= button_to "Add to collection", addnote_collection_path(@collection.id, note.id), :class => "btn btn-success", :method => :get %>
+        <% end %>      
+      </td>
     </tr>
-    <br>
-<% end %>
-<br>
+    <% end %>
+  </tbody>
+</table>
 
 <%= link_to 'Show', @collection %> |
 <%= link_to 'Back', collections_path %>

@@ -13,6 +13,10 @@ Rails.application.routes.draw do
 
   get 'welcome/index'
 
+  get "/collections/:id/removenote/:n_id" => "collections#removenote", :as => "removenote_collection"
+
+  get "/collections/:id/addnote/:n_id" => "collections#addnote", :as => "addnote_collection"
+
   get "logout" => "session#destroy", :as => "logout"
   get "login" => "session#new", :as => "login"
   post "login" => "session#create"

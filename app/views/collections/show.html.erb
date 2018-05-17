@@ -1,35 +1,58 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Owner:</strong>
+  <%= @collection.user.username %>
+</p>
+
+<p>
   <strong>Title:</strong>
   <%= @collection.title %>
 </p>
 
-<p>
-  <strong>User:</strong>
-  <%= @collection.user.username %>
-</p>
 <h1>Notes</h1>
-<% @notes.each do |note| %>
-    <% if @collection.note_ids.include? note.id %>
-        <tr>
-        	<td><%= note.user.username %></td>
-          	<td><%= note.text %></td>
-          	<% if note.image.url(:thumb) != '/images/thumb/missing.png' %>
-            	<td><%=  image_tag note.image.url(:thumb) %></td>
-          	<% else %>
-            	<td></td>
-          	<% end %>
-          	<td><%= link_to 'Show', note %></td>
-          	<td><%= link_to 'Edit', edit_note_path(note) %></td>
-          	<td><%= link_to 'Destroy', note, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          	<td>Share</td>
-          	<br>
-        </tr>
-    <% end %>
-<% end %>
 
-<br>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Owner</th>
+      <th>Text</th>
+      <th>Image</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @notes.each do |note| %>
+      <% if @collection.note_ids.include? note.id%>
+        <tr>
+          <td><%= note.user.username %></td>
+          <td>
+            <% if note.text.length>30 %>
+              <%= note.text[0..29]+'...' %>
+            <% else %>
+              <%= note.text%>
+            <% end %> 
+          </td>
+          <td>
+            <% if note.image.url(:thumb) != '/images/thumb/missing.png' %>
+              <%=  image_tag note.image.url(:thumb) %>
+            <% end %>
+          </td>
+          <td>
+            <div class="btn-group">
+            <%= button_to 'Show', note, :class => "btn btn-primary", :method => :get %>
+            <%= button_to 'Edit', edit_note_path(note), :class => "btn btn-success", :method => :get %>
+            <%= button_to 'Destroy', note, :class => "btn btn-danger", :method => :get %>
+            Share
+          </div>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
 
 <%= link_to 'Edit', edit_collection_path(@collection) %> |
 <%= link_to 'Back', collections_path %>

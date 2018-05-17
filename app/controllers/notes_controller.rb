@@ -27,7 +27,6 @@ class NotesController < ApplicationController
   def create
     @note = Note.new(note_params)
     @note.user = User.find_by username: session[:user]
-    @note.collection_ids = Collection.find_by(id: 1).id
     respond_to do |format|
       if @note.save
         format.html { redirect_to @note, notice: 'Note was successfully created.' }

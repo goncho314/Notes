@@ -11,7 +11,7 @@
 </p>
 
 <% if @note.image.url(:medium) != '/images/medium/missing.png' %>
-    <td><%=  image_tag note.image.url(:medium) %></td>
+    <td><%=  image_tag @note.image.url(:medium) %></td>
 <% else %>
     <td></td>
 <% end %>
