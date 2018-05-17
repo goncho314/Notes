@@ -1,17 +1,20 @@
 <%= form_with(model: user, local: true) do |form| %>
-  
 
+
+<div class="container col-md-5">
+  <h1>Create user</h1>
   <div class="field">
     <%= label_tag :username %>
-    <%= text_field_tag :username, params[:username] %>
+    <%= text_field_tag :username, params[:username], :class => "form-control" %>
   </div>
 
   <div class="field">
     <%= form.label :password %>
-    <%= password_field_tag :password, params[:password] %>
+    <%= password_field_tag :password, params[:password], :class => "form-control" %>
   </div>
-
+  <br>
   <div class="actions">
-    <%= form.submit %>
+    <%= button_tag "Sign up", :class => "btn btn-primary", :type => "submit" %> 
   </div>
+</div>
 <% end %>

@@ -1,0 +1,93 @@
+<div class="container-fluid">
+  <div class="row">
+  <div class="col-md-4" >
+    <h1>Friends</h1>
+    <div style="overflow-y:auto;max-height:82vh">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <% if @current_user.friends_with?(user) %>
+            <tr>
+              <td><%= user.username %></td>
+              <td><%= button_to "Remove friendship", removefriend_user_path(@current_user.id, user.id), :class => "btn btn-danger", :method => :get %>
+            </tr>
+          <% end %>
+        <% end %>
+
+      </tbody>
+    </table>  
+  </div>
+  </div>
+  <div class="col-md-4">
+    <h1>Pending requests</h1>
+    <div style="overflow-y:auto;max-height:82vh">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <% if user.requested_friends.include? @current_user %>
+            <tr>
+              <td><%= user.username %></td>
+              <td><%= button_to "Cancel request", cancelrequest_user_path(@current_user.id, user.id), :class => "btn btn-danger", :method => :get %>
+              </td>
+            </tr>
+          <% elsif user.pending_friends.include? @current_user%>
+            <tr>
+              <td><%= user.username %></td>
+              <td>
+                <div class="btn-group">
+                <div style="padding-right: 4%">
+                <%= button_to "Accept", acceptrequest_user_path(@current_user.id, user.id), :class => "btn btn-success", :method => :get %>
+                </div>
+                <div style="padding-left: 4%">
+                <%= button_to "Decline", declinerequest_user_path(@current_user.id, user.id), :class => "btn btn-danger", :method => :get %>
+              </div>
+              </div>
+              </div>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+        
+      </tbody>
+    </table>  
+  </div>
+  </div>
+  <div class="col-md-4">
+    <h1>Add new friends</h1>
+    <div style="overflow-y:auto;max-height:82vh">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+        <% if !@current_user.friends_with?(user) and !user.requested_friends.include? @current_user and !user.pending_friends.include? @current_user and @current_user.id != user.id %>
+          <tr>
+            <td><%= user.username %></td>
+            <td><%= button_to "Add to friends", friendrequest_user_path(@current_user.id, user.id), :class => "btn btn-success", :method => :get %>
+            </td>
+          </tr>
+          <% end %>
+        <% end %>
+
+      </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+</div>

@@ -1,8 +1,11 @@
 <p id="notice"><%= notice %></p>
-
-<h1>Collections</h1>
-
-
+<div class="container-fluid">
+  <div class="row">
+<h1 class="col-md-3">Collections</h1>
+<%= button_to 'New Collection', new_collection_path, :class => "btn btn-primary col-md-12", :method => :get %>
+</div>
+</div>
+<div style="overflow-y:auto;max-height:81vh">
 <table class="table table-striped">
   <thead>
     <tr>
@@ -16,8 +19,8 @@
       <tr>
         <td><%= collection.user.username %></td>
         <td>
-          <% if collection.title.length>30 %>
-            <%= collection.title.text[0..29]+'...' %>
+          <% if collection.title.length>45 %>
+            <%= collection.title.text[0..44]+'...' %>
           <% else %>
             <%= collection.title%>
           <% end %> 
@@ -34,5 +37,4 @@
     <% end %>
   </tbody>
 </table>
-
-<%= button_to 'New Collection', new_collection_path, :class => "btn btn-primary", :method => :get %>
+</div>

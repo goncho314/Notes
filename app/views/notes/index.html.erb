@@ -1,9 +1,10 @@
 <p id="notice"><%= notice %></p>
-
-<h1>Notes</h1>
-
-
-
+<div class="container-fluid">
+  <div class="row">
+<h1 class="col-md-2">Notes</h1>
+<%= button_to 'New Note', new_note_path, :class => "btn btn-primary col-md-12", :method => :get %>
+</div>
+<div style="overflow-y:auto;max-height:81vh">
 <table class="table table-striped">
   <thead>
     <tr>
@@ -18,8 +19,8 @@
       <tr>
         <td><%= note.user.username %></td>
         <td>
-          <% if note.text.length>30 %>
-            <%= note.text[0..29]+'...' %>
+          <% if note.text.length>45 %>
+            <%= note.text[0..44]+'...' %>
           <% else %>
             <%= note.text%>
           <% end %> 
@@ -41,5 +42,5 @@
     <% end %>
   </tbody>
 </table>
+</div>
 
-<%= button_to 'New Note', new_note_path, :class => "btn btn-primary", :method => :get %>

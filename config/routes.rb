@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'friends/index'
+
   get 'collection/new'
 
   get 'collection/create'
@@ -16,6 +18,12 @@ Rails.application.routes.draw do
   get "/collections/:id/removenote/:n_id" => "collections#removenote", :as => "removenote_collection"
 
   get "/collections/:id/addnote/:n_id" => "collections#addnote", :as => "addnote_collection"
+
+  get "/users/:id/friendrequest/:n_id" => "users#friendrequest", :as => "friendrequest_user"
+  get "/users/:id/removefriend/:n_id" => "users#removefriend", :as => "removefriend_user"
+  get "/users/:id/acceptrequest/:n_id" => "users#acceptrequest", :as => "acceptrequest_user"
+  get "/users/:id/declinerequest/:n_id" => "users#declinerequest", :as => "declinerequest_user"
+  get "/users/:id/cancelrequest/:n_id" => "users#cancelrequest", :as => "cancelrequest_user"
 
   get "logout" => "session#destroy", :as => "logout"
   get "login" => "session#new", :as => "login"

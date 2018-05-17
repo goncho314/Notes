@@ -70,10 +70,72 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
+    @user = User.find_by username: session[:user]
     @user.destroy
+    session[:user] = nil
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def friendrequest
+    @current_user = User.find_by id: params[:id]
+    @user = User.find_by id: params[:n_id]
+    @current_user.friend_request(@user)
+    respond_to do |format|
+      if @current_user.save
+        format.html { redirect_to friends_index_path, notice: 'Request was successfully sended.' }
+        format.json { render :edit, status: :ok, location: @current_user }
+      end
+    end
+  end
+
+  def removefriend
+    @current_user = User.find_by id: params[:id]
+    @user = User.find_by id: params[:n_id]
+    @current_user.remove_friend(@user)
+    respond_to do |format|
+      if @current_user.save
+        format.html { redirect_to friends_index_path, notice: 'Friendship was successfully removed.' }
+        format.json { render :edit, status: :ok, location: @current_user }
+      end
+    end
+  end
+
+  def acceptrequest
+    @current_user = User.find_by id: params[:id]
+    @user = User.find_by id: params[:n_id]
+    @current_user.accept_request(@user)
+    respond_to do |format|
+      if @current_user.save
+        format.html { redirect_to friends_index_path, notice: 'Friendship was accepted.' }
+        format.json { render :edit, status: :ok, location: @current_user }
+      end
+    end
+  end
+
+  def declinerequest
+    @current_user = User.find_by id: params[:id]
+    @user = User.find_by id: params[:n_id]
+    @current_user.decline_request(@user)
+    respond_to do |format|
+      if @current_user.save
+        format.html { redirect_to friends_index_path, notice: 'Friendship was declined.' }
+        format.json { render :edit, status: :ok, location: @current_user }
+      end
+    end
+  end
+
+  def cancelrequest
+    @current_user = User.find_by id: params[:id]
+    @user = User.find_by id: params[:n_id]
+    @user.decline_request(@current_user)
+    respond_to do |format|
+      if @current_user.save
+        format.html { redirect_to friends_index_path, notice: 'Friendship request was canceled.' }
+        format.json { render :edit, status: :ok, location: @current_user }
+      end
     end
   end
 

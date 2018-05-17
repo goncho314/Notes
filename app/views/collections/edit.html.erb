@@ -1,8 +1,9 @@
+<div class="container col-md-5">
 <h1>Editing Collection</h1>
-
+</div>
 <%= render 'form', collection: @collection %>
-
 <h1>Notes</h1>
+<div style="overflow-y:auto;max-height:58vh">
 <table class="table table-striped">
   <thead>
     <tr>
@@ -39,6 +40,7 @@
     <% end %>
   </tbody>
 </table>
+</div>
 
 <%= link_to 'Show', @collection %> |
 <%= link_to 'Back', collections_path %>
