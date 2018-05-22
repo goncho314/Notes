@@ -21,6 +21,8 @@ class CollectionsController < ApplicationController
   # GET /collections/1/edit
   def edit
     @notes = Note.all
+    @users = User.all
+    @current_user = User.find_by username: session[:user]
   end
 
   # POST /collections
@@ -93,6 +95,32 @@ class CollectionsController < ApplicationController
       if @collection.save
         format.html { redirect_to @collection, notice: 'Collection was successfully updated.' }
         format.json { render :edit, status: :ok, location: @collection }
+      end
+    end
+  end
+
+  def share
+    @collection = Collection.find_by id: params[:id]
+    users = @collection.user_ids
+    users.push(params[:n_id].to_i)
+    @collection.user_ids = users
+    respond_to do |format|
+      if @collection.save
+        format.html { redirect_to @collection, notice: 'Collection was successfully shared.' }
+        format.json { render :show, status: :ok, location: @collection }
+      end
+    end
+  end
+
+  def stopsharing
+    @collection = Collection.find_by id: params[:id]
+    users = @collection.user_ids
+    users.delete(params[:n_id].to_i)
+    @collection.user_ids = users
+    respond_to do |format|
+      if @collection.save
+        format.html { redirect_to @collection, notice: 'Collection sharing stopped.' }
+        format.json { render :show, status: :ok, location: @collection }
       end
     end
   end

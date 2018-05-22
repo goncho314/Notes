@@ -28,6 +28,10 @@ Rails.application.routes.draw do
   get "/notes/:id/share/:n_id" => "notes#share", :as => "share_note"
   get "/notes/:id/stopsharing/:n_id" => "notes#stopsharing", :as => "stopsharing_note"
 
+
+  get "/collections/:id/share/:n_id" => "collections#share", :as => "share_collection"
+  get "/collections/:id/stopsharing/:n_id" => "collections#stopsharing", :as => "stopsharing_collection"
+
   get "logout" => "session#destroy", :as => "logout"
   get "login" => "session#new", :as => "login"
   post "login" => "session#create"
