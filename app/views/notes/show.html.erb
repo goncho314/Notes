@@ -1,46 +1,94 @@
+<div class="container-fluid">
+<div class="row">
+<div class="container col-md-6">
 <p id="notice"><%= notice %></p>
+<div class="row">
 
-<p>
-  <strong>Owner:</strong>
-  <%= @note.owner.username %>
-</p>
 
-<p>
-  <strong>Text:</strong>
-  <%= @note.text %>
-</p>
+  <strong style="font-size: 5vh;background-color: #79a9de; border-radius: 25%;">Owner:</strong>
 
-<% if @note.image.url(:medium) != '/images/medium/missing.png' %>
-    <td><%=  image_tag @note.image.url(:medium) %></td>
+
+    <span style="font-size: 4vh;padding-left: 2px;"><%= @note.owner.username %></span>
+
+
+</div>
+<div class="row">
+  <strong style="font-size: 5vh;background-color: #ffc107; border-radius: 25%;">Text:</strong>
+</div>
+<div class="row">
+  <textarea style="padding-left: 2px;min-width: 100%;background-color: #fdf2d0" rows="6" disabled="true"><%= @note.text %></textarea> 
+
+
+</div>
+</div>
+<div class="container col-md-6">
+  <% if @note.image.url(:large) != '/images/large/missing.png' %>
+    <td><%=  image_tag @note.image.url(:large) %></td>
 <% else %>
     <td></td>
 <% end %>
-
+  </div>
+</div>
+</div>
+<div class="row">
+  <div class="col-md-6">
 <h1>Belongs to collections:</h1>
-<% @collections.each do |collection| %>
-      <% if @note.collection_ids.include? collection.id %>
+<% if @note.collection_ids.empty? %> 
+<span style="color: red;">This note doesn't belong to any collection yet.</span>
+<% else %>
+<div style="overflow-y:auto;max-height:58vh">
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <td><%= collection.title %></td>
-          
-          <td><%= link_to 'Show', collection %></td>
-          <td><%= link_to 'Edit', edit_collection_path(collection) %></td>
-          <td><%= link_to 'Destroy', collection, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <td>Share</td>
+          <th>Collection</th>
         </tr>
-      <% end %>
-    <% end %>
+      </thead>
+      <tbody>
+        <% @collections.each do |collection| %>
+        <% if @note.collection_ids.include? collection.id %>
+        <tr>
+          <td>
+            <%= collection.title %>              
+          </td>
+        </tr>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <% end %>
 
 <br>
-
+</div>
+<div class="col-md-6">
 <h1>Shared with:</h1>
-<% @users.each do |user| %>
-      <% if @note.user_ids.include? user.id %>
+<% if @note.user_ids.empty? %> 
+<span style="color: red;">This note hasn't been shared yet.</span>
+<% else %>
+<div style="overflow-y:auto;max-height:58vh">
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <td><%= user.username %></td>
+          <th>Username</th>
         </tr>
-      <% end %>
-    <% end %>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+        <% if @note.user_ids.include? user.id %>
+        <tr>
+          <td>
+            <%= user.username %>              
+          </td>
+        </tr>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <% end %>
 
+  </div>
+</div>
 
 <%= link_to 'Edit', edit_note_path(@note) %> |
 <%= link_to 'Back', notes_path %>
