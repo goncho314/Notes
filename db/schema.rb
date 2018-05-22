@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180517190041) do
+ActiveRecord::Schema.define(version: 20180520101514) do
 
   create_table "collections", force: :cascade do |t|
     t.string "title"
-    t.integer "user_id"
+    t.integer "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_collections_on_user_id"
+    t.index ["owner_id"], name: "index_collections_on_owner_id"
   end
 
   create_table "collections_notes", id: false, force: :cascade do |t|
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20180517190041) do
   end
 
   create_table "notes", force: :cascade do |t|
-    t.integer "user_id"
+    t.integer "owner_id"
     t.string "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20180517190041) do
     t.string "image_content_type"
     t.integer "image_file_size"
     t.datetime "image_updated_at"
-    t.index ["user_id"], name: "index_notes_on_user_id"
+    t.index ["owner_id"], name: "index_notes_on_owner_id"
   end
 
   create_table "notes_users", id: false, force: :cascade do |t|

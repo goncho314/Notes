@@ -27,7 +27,7 @@ class CollectionsController < ApplicationController
   # POST /collections.json
   def create
     @collection = Collection.new(collection_params)
-    @collection.user = User.find_by username: session[:user]
+    @collection.owner = User.find_by username: session[:user]
     respond_to do |format|
       if @collection.save
         format.html { redirect_to @collection, notice: 'Collection was successfully created.' }

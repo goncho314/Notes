@@ -16,7 +16,7 @@
   <tbody>
     <% @notes.each do |note| %>
     <tr>
-      <td><%= note.user.username %></td>
+      <td><%= note.owner.username %></td>
       <td>
         <% if note.text.length>30 %>
           <%= note.text[0..29]+'...' %>

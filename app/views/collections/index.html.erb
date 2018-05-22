@@ -17,7 +17,7 @@
   <tbody>
     <% @collections.each do |collection| %>
       <tr>
-        <td><%= collection.user.username %></td>
+        <td><%= collection.owner.username %></td>
         <td>
           <% if collection.title.length>45 %>
             <%= collection.title.text[0..44]+'...' %>

@@ -5,6 +5,7 @@
 <div class="container col-md-5">
 	<div style="overflow-y:auto;max-height:60vh">
 		<table class="table table-striped">
+			<h2>Sharing</h2>
 			<thead>
 				<tr>
 					<th>Username</th>
@@ -19,7 +20,7 @@
 						<%= user.username %>							
 					</td>
 					<td>
-						<% if user.note_ids.include? @note.id %>
+						<% if @note.user_ids.include? user.id %>
 							<%= button_to 'Stop sharing', stopsharing_note_path(@note.id, user.id), :class => "btn btn-danger", :method => :get  %>
 						<% else %>
 							<%= button_to 'Share', share_note_path(@note.id, user.id), :class => "btn btn-success", :method => :get  %>

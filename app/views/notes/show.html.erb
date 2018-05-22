@@ -2,7 +2,7 @@
 
 <p>
   <strong>Owner:</strong>
-  <%= @note.user.username %>
+  <%= @note.owner.username %>
 </p>
 
 <p>
@@ -31,6 +31,16 @@
     <% end %>
 
 <br>
+
+<h1>Shared with:</h1>
+<% @users.each do |user| %>
+      <% if @note.user_ids.include? user.id %>
+        <tr>
+          <td><%= user.username %></td>
+        </tr>
+      <% end %>
+    <% end %>
+
 
 <%= link_to 'Edit', edit_note_path(@note) %> |
 <%= link_to 'Back', notes_path %>

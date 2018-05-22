@@ -11,6 +11,7 @@ class NotesController < ApplicationController
   # GET /notes/1.json
   def show
     @collections = Collection.all
+    @users = User.all
   end
 
   # GET /notes/new
@@ -28,7 +29,7 @@ class NotesController < ApplicationController
   # POST /notes.json
   def create
     @note = Note.new(note_params)
-    @note.user = User.find_by username: session[:user]
+    @note.owner = User.find_by username: session[:user]
     respond_to do |format|
       if @note.save
         format.html { redirect_to @note, notice: 'Note was successfully created.' }
@@ -66,16 +67,9 @@ class NotesController < ApplicationController
 
   def share
     @note = Note.find_by id: params[:id]
-    @owner = @note.user
     users = @note.user_ids
     users.push(params[:n_id].to_i)
-    users.delete(@owner.id)
     @note.user_ids = users
-    @user = User.find_by id: params[:n_id]    
-    notes = @user.note_ids
-    notes.push(params[:id].to_i)
-    @user.note_ids = notes
-    @note.user = @owner
     respond_to do |format|
       if @note.save
         format.html { redirect_to @note, notice: 'Note was successfully shared.' }
@@ -86,15 +80,9 @@ class NotesController < ApplicationController
 
   def stopsharing
     @note = Note.find_by id: params[:id]
-    @owner = @note.user
     users = @note.user_ids
     users.delete(params[:n_id].to_i)
     @note.user_ids = users
-    @user = User.find_by id: params[:n_id]
-    notes = @user.note_ids
-    notes.delete(params[:id].to_i)
-    @user.note_ids = notes
-    @note.user = @owner
     respond_to do |format|
       if @note.save
         format.html { redirect_to @note, notice: 'Note sharing stopped.' }

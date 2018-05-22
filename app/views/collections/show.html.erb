@@ -2,7 +2,7 @@
 
 <p>
   <strong>Owner:</strong>
-  <%= @collection.user.username %>
+  <%= @collection.owner.username %>
 </p>
 
 <p>
@@ -26,7 +26,7 @@
     <% @notes.each do |note| %>
       <% if @collection.note_ids.include? note.id%>
         <tr>
-          <td><%= note.user.username %></td>
+          <td><%= note.owner.username %></td>
           <td>
             <% if note.text.length>30 %>
               <%= note.text[0..29]+'...' %>
