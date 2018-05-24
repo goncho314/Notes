@@ -11,12 +11,20 @@
 </div>
 </div>
  <% else %>
- <div class="btn-group">
- <%= button_to "Notes", notes_path, :class => "btn btn-primary btn-lg", :style => "font-size : 7vh;height:94.6vh;width:24.8vw;", :method => :get %>
- <%= button_to "Collections", collections_path, :class => "btn btn-warning btn-lg", :style => "font-size : 7vh;height:94.6vh;width:24.8vw;", :method => :get %>
- <%= button_to "Friends", friends_index_path, :class => "btn btn-basic btn-lg", :style => "font-size : 7vh;height:94.6vh;width:24.8vw;", :method => :get %>
- Management
-</div>
+ 	<% if session[:role] == 'Admin' %>
+	 	<div class="btn-group">
+	 		<%= button_to "Notes", notes_path, :class => "btn btn-primary btn-lg", :style => "font-size : 7vh;height:94.6vh;width:24.8vw;", :method => :get %>
+			 <%= button_to "Collections", collections_path, :class => "btn btn-warning btn-lg", :style => "font-size : 7vh;height:94.6vh;width:24.8vw;", :method => :get %>
+			 <%= button_to "Friends", friends_index_path, :class => "btn btn-basic btn-lg", :style => "font-size : 7vh;height:94.6vh;width:24.8vw;", :method => :get %>
+			 <%= button_to "Management", management_index_path, :class => "btn btn-info btn-lg", :style => "font-size : 7vh;height:94.6vh;width:24.8vw;", :method => :get %>
+		</div>
+ 	<% else %>
+ 		<div class="btn-group">
+			 <%= button_to "Notes", notes_path, :class => "btn btn-primary btn-lg", :style => "font-size : 7vh;height:94.6vh;width:33.3vw;", :method => :get %>
+			 <%= button_to "Collections", collections_path, :class => "btn btn-warning btn-lg", :style => "font-size : 7vh;height:94.6vh;width:33.3vw;", :method => :get %>
+			 <%= button_to "Friends", friends_index_path, :class => "btn btn-basic btn-lg", :style => "font-size : 7vh;height:94.6vh;width:33.3vw;", :method => :get %>
+		</div>
+ 	<% end %>
  <% end %>
  </div>
  <%= yield %>

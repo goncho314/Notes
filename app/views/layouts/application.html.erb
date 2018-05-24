@@ -23,6 +23,14 @@
 				<li class="nav-item mr-sm-2">
 					<%= link_to "Friends", friends_index_path %>
 				</li>
+				<% if session[:role] == 'Admin' %>
+					<li class="nav-item mr-sm-2">
+						<%= link_to "Management", management_index_path %>
+					</li>	 	
+ 				<% end %>
+
+
+
 				<% end %>
 			</ul>
 			<ul class="navbar-nav mr-auto">

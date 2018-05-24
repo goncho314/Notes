@@ -56,7 +56,7 @@
       </thead>
       <tbody>
         <% @users.each do |user| %>
-        <% if @current_user.friends_with?(user) %>
+        <% if @current_user.friends_with?(user) or @collection.user_ids.include? user.id %>
         <tr>
           <td>
             <%= user.username %>              
