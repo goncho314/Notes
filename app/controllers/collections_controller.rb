@@ -11,6 +11,7 @@ class CollectionsController < ApplicationController
   # GET /collections/1.json
   def show
     @notes = Note.all
+    @users = User.all
   end
 
   # GET /collections/new

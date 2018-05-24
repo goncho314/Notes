@@ -1,17 +1,28 @@
+<div class="container-fluid">
+<div class="row">
+<div class="container col-md-6">
 <p id="notice"><%= notice %></p>
+<div class="row">
 
-<p>
-  <strong>Owner:</strong>
-  <%= @collection.owner.username %>
-</p>
+  <strong style="font-size: 5vh;background-color: #79a9de; border-radius: 25%;">Owner:</strong>
+  <span style="font-size: 4vh;padding-left: 2px;"><%= @collection.owner.username %></span>
+</div>
+<div class="row">
+  <strong style="font-size: 5vh;background-color: #ffc107; border-radius: 25%;">Title:</strong>
+  </div>
+  <div class="row">
+   <textarea style="padding-left: 2px;min-width: 100%;background-color: #fdf2d0" rows="6" disabled="true"><%= @collection.title %></textarea>
+ </div>
+</div>
+</div>
+</div>
 
-<p>
-  <strong>Title:</strong>
-  <%= @collection.title %>
-</p>
-
-<h1>Notes</h1>
-
+<div class="row">
+<div class="col-md-6">
+  <h1>Notes</h1>
+<% if @collection.note_ids.empty? %> 
+<span style="color: red;">This note doesn't belong to any collection yet.</span>
+<% else %>
 <div style="overflow-y:auto;max-height:81vh">
 <table class="table table-striped">
   <thead>
@@ -19,7 +30,6 @@
       <th>Owner</th>
       <th>Text</th>
       <th>Image</th>
-      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -40,11 +50,6 @@
             <% end %>
           </td>
           <td>
-            <div class="btn-group">
-            <%= button_to 'Show', note, :class => "btn btn-primary", :method => :get %>
-            <%= button_to 'Edit', edit_note_path(note), :class => "btn btn-success", :method => :get %>
-            <%= button_to 'Destroy', note, :class => "btn btn-danger", :method => :get %>
-          </div>
           </td>
         </tr>
       <% end %>
@@ -52,7 +57,33 @@
   </tbody>
 </table>
 </div>
-
-
-<%= link_to 'Edit', edit_collection_path(@collection) %> |
-<%= link_to 'Back', collections_path %>
+<% end %>
+</div>  
+<div class="col-md-6">
+ <h1>Shared with:</h1>
+<% if @collection.user_ids.empty? %> 
+<span style="color: red;">This note hasn't been shared yet.</span>
+<% else %>
+<div style="overflow-y:auto;max-height:58vh">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Username</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+        <% if @collection.user_ids.include? user.id %>
+        <tr>
+          <td>
+            <%= user.username %>              
+          </td>
+        </tr>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <% end %>
+</div>
+</div>
