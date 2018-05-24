@@ -27,7 +27,7 @@ class UsersController < ApplicationController
     @user = User.find_by username: params[:username]
     if @user or params[:username]=="" or params[:password]==""
       respond_to do |format|
-        format.html { render :new }
+        format.html { redirect_to signup_path, alert: 'User was not created.' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     else
@@ -35,10 +35,10 @@ class UsersController < ApplicationController
       respond_to do |format|
         if @user.save
           session[:user] = @user.username
-          format.html { redirect_to root_path, notice: 'User: '+@user.username+' was successfully created.' }
+          format.html { redirect_to root_path, success: 'User: '+@user.username+' was successfully created.' }
           format.json { render :show, status: :created, location: @user }
         else
-          format.html { render :new }
+       format.html { redirect_to signup_path, alert: 'User was not created.' }
           format.json { render json: @user.errors, status: :unprocessable_entity }
         end
       end
@@ -57,7 +57,7 @@ class UsersController < ApplicationController
     else
       respond_to do |format|
         if @user.update(user_params)
-          format.html { redirect_to @user, notice: 'User was successfully updated.' }
+          format.html { redirect_to @user, success: 'User was successfully updated.' }
           format.json { render :show, status: :ok, location: @user }
         else
           format.html { render :edit }
@@ -74,7 +74,7 @@ class UsersController < ApplicationController
     @user.destroy
     session[:user] = nil
     respond_to do |format|
-      format.html { redirect_to root_path, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to root_path, success: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -85,7 +85,7 @@ class UsersController < ApplicationController
     @current_user.friend_request(@user)
     respond_to do |format|
       if @current_user.save
-        format.html { redirect_to friends_index_path, notice: 'Request was successfully sended.' }
+        format.html { redirect_to friends_index_path, success: 'Request was successfully sended.' }
         format.json { render :edit, status: :ok, location: @current_user }
       end
     end
@@ -97,7 +97,7 @@ class UsersController < ApplicationController
     @current_user.remove_friend(@user)
     respond_to do |format|
       if @current_user.save
-        format.html { redirect_to friends_index_path, notice: 'Friendship was successfully removed.' }
+        format.html { redirect_to friends_index_path, success: 'Friendship was successfully removed.' }
         format.json { render :edit, status: :ok, location: @current_user }
       end
     end
@@ -109,7 +109,7 @@ class UsersController < ApplicationController
     @current_user.accept_request(@user)
     respond_to do |format|
       if @current_user.save
-        format.html { redirect_to friends_index_path, notice: 'Friendship was accepted.' }
+        format.html { redirect_to friends_index_path, success: 'Friendship was accepted.' }
         format.json { render :edit, status: :ok, location: @current_user }
       end
     end
@@ -121,7 +121,7 @@ class UsersController < ApplicationController
     @current_user.decline_request(@user)
     respond_to do |format|
       if @current_user.save
-        format.html { redirect_to friends_index_path, notice: 'Friendship was declined.' }
+        format.html { redirect_to friends_index_path, success: 'Friendship was declined.' }
         format.json { render :edit, status: :ok, location: @current_user }
       end
     end
@@ -133,7 +133,7 @@ class UsersController < ApplicationController
     @user.decline_request(@current_user)
     respond_to do |format|
       if @current_user.save
-        format.html { redirect_to friends_index_path, notice: 'Friendship request was canceled.' }
+        format.html { redirect_to friends_index_path, success: 'Friendship request was canceled.' }
         format.json { render :edit, status: :ok, location: @current_user }
       end
     end

@@ -32,10 +32,10 @@ class NotesController < ApplicationController
     @note.owner = User.find_by username: session[:user]
     respond_to do |format|
       if @note.save
-        format.html { redirect_to @note, notice: 'Note was successfully created.' }
+        format.html { redirect_to @note, success: 'Note was successfully created.' }
         format.json { render :show, status: :created, location: @note }
       else
-        format.html { render :new }
+        format.html { redirect_to @note, alert: 'Note was not created.' }
         format.json { render json: @note.errors, status: :unprocessable_entity }
       end
     end
@@ -46,10 +46,10 @@ class NotesController < ApplicationController
   def update
     respond_to do |format|
       if @note.update(note_params)
-        format.html { redirect_to @note, notice: 'Note was successfully updated.' }
+        format.html { redirect_to @note, success: 'Note was successfully updated.' }
         format.json { render :show, status: :ok, location: @note }
       else
-        format.html { render :edit }
+        format.html { redirect_to @note, alert: 'Note was not updated.' }
         format.json { render json: @note.errors, status: :unprocessable_entity }
       end
     end
@@ -60,7 +60,7 @@ class NotesController < ApplicationController
   def destroy
     @note.destroy
     respond_to do |format|
-      format.html { redirect_to notes_url, notice: 'Note was successfully destroyed.' }
+      format.html { redirect_to notes_url, succcess: 'Note was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -72,7 +72,7 @@ class NotesController < ApplicationController
     @note.user_ids = users
     respond_to do |format|
       if @note.save
-        format.html { redirect_to @note, notice: 'Note was successfully shared.' }
+        format.html { redirect_to @note, success: 'Note was successfully shared.' }
         format.json { render :show, status: :ok, location: @note }
       end
     end
@@ -85,7 +85,7 @@ class NotesController < ApplicationController
     @note.user_ids = users
     respond_to do |format|
       if @note.save
-        format.html { redirect_to @note, notice: 'Note sharing stopped.' }
+        format.html { redirect_to @note, success: 'Note sharing stopped.' }
         format.json { render :show, status: :ok, location: @note }
       end
     end

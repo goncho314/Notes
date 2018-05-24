@@ -25,6 +25,14 @@
 				</li>
 				<% end %>
 			</ul>
+			<ul class="navbar-nav mr-auto">
+				
+					<% flash.each do |name, msg| %>
+					<li class="nav-item mr-sm-2 <%= name %>-li" >
+						<span class="<%= name %>"><%= msg %></span>
+					<% end %>
+				</li>
+			</ul>
 			<% if session[:user] %>
 				<ul class="navbar-nav my-2 my-lg-0">
 					<li class="nav-item mr-sm-2 text">
@@ -40,9 +48,6 @@
 			<% end %>
 	</div>
 </nav>
-<% flash.each do |name, msg| %>
-	<%= content_tag :div, msg, :id => "flash_#{name}" %>
-<% end %>
 <%= yield %>
 </body>
 </html>

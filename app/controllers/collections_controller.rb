@@ -33,10 +33,10 @@ class CollectionsController < ApplicationController
     @collection.owner = User.find_by username: session[:user]
     respond_to do |format|
       if @collection.save
-        format.html { redirect_to @collection, notice: 'Collection was successfully created.' }
+        format.html { redirect_to @collection, success: 'Collection was successfully created.' }
         format.json { render :show, status: :created, location: @collection }
       else
-        format.html { render :new }
+        format.html { redirect_to @collection, alert: 'Collection was not created.' }
         format.json { render json: @collection.errors, status: :unprocessable_entity }
       end
     end
@@ -47,10 +47,10 @@ class CollectionsController < ApplicationController
   def update
     respond_to do |format|
       if @collection.update(collection_params)
-        format.html { redirect_to @collection, notice: 'Collection was successfully updated.' }
+        format.html { redirect_to @collection, success: 'Collection was successfully updated.' }
         format.json { render :show, status: :ok, location: @collection }
       else
-        format.html { render :edit }
+        format.html { redirect_to @collection, alert: 'Collection was not updated.' }
         format.json { render json: @collection.errors, status: :unprocessable_entity }
       end
     end
@@ -61,7 +61,7 @@ class CollectionsController < ApplicationController
   def destroy
     @collection.destroy
     respond_to do |format|
-      format.html { redirect_to collections_url, notice: 'Collection was successfully destroyed.' }
+      format.html { redirect_to collections_url, success: 'Collection was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -77,7 +77,7 @@ class CollectionsController < ApplicationController
     @note.collection_ids = collections
     respond_to do |format|
       if @collection.save
-        format.html { redirect_to @collection, notice: 'Collection was successfully updated.' }
+        format.html { redirect_to @collection, success: 'Collection was successfully updated.' }
         format.json { render :show, status: :ok, location: @collection }
       end
     end
@@ -94,7 +94,7 @@ class CollectionsController < ApplicationController
     @note.collection_ids = collections
     respond_to do |format|
       if @collection.save
-        format.html { redirect_to @collection, notice: 'Collection was successfully updated.' }
+        format.html { redirect_to @collection, success: 'Collection was successfully updated.' }
         format.json { render :edit, status: :ok, location: @collection }
       end
     end
@@ -107,7 +107,7 @@ class CollectionsController < ApplicationController
     @collection.user_ids = users
     respond_to do |format|
       if @collection.save
-        format.html { redirect_to @collection, notice: 'Collection was successfully shared.' }
+        format.html { redirect_to @collection, success: 'Collection was successfully shared.' }
         format.json { render :show, status: :ok, location: @collection }
       end
     end
@@ -120,7 +120,7 @@ class CollectionsController < ApplicationController
     @collection.user_ids = users
     respond_to do |format|
       if @collection.save
-        format.html { redirect_to @collection, notice: 'Collection sharing stopped.' }
+        format.html { redirect_to @collection, success: 'Collection sharing stopped.' }
         format.json { render :show, status: :ok, location: @collection }
       end
     end
