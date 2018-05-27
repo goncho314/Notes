@@ -21,7 +21,7 @@
 <div class="col-md-6">
   <h1>Notes</h1>
 <% if @collection.note_ids.empty? %> 
-<span style="color: red;">This note doesn't belong to any collection yet.</span>
+<span style="color: red;">This collection doesn't have any note yet.</span>
 <% else %>
 <div style="overflow-y:auto;max-height:81vh">
 <table class="table table-striped">
@@ -62,7 +62,7 @@
 <div class="col-md-6">
  <h1>Shared with:</h1>
 <% if @collection.user_ids.empty? %> 
-<span style="color: red;">This note hasn't been shared yet.</span>
+<span style="color: red;">This collection hasn't been shared yet.</span>
 <% else %>
 <div style="overflow-y:auto;max-height:58vh">
     <table class="table table-striped">
